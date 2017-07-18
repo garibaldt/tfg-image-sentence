@@ -1,0 +1,52 @@
+%%%
+%%% BACHELOR'S THESIS TEMPLATE - ENGLISH
+%%%
+%%%  * the second chapter
+%%%
+%%%  AUTHORS:  Arnost Komarek (komarek@karlin.mff.cuni.cz), 2011
+%%%            Michal Kulich (kulich@karlin.mff.cuni.cz), 2013
+%%%
+%%%  LAST UPDATED: 20130318
+%%%
+%%%  ===========================================================================
+
+\chapter{Trabajo relacionado}
+
+%%%%% ===============================================================================
+Tanto la tarea de análisis de imágenes como la de generación de sentencias en lenguaje natural
+mediante \textit{deep learning} está en desarrollo constante, y cada mes aparece un nuevo artículo
+o tesis sobre este tema.
+
+La idea de utilizar redes neuronales recurrentes para construir modelos relacionados
+con el procesamiento del lenguaje natural está muy presente en nuestro trabajo. En \citet{kombrink2011recurrent}
+se propone un modelo que utiliza RNNs con este propósito, y analiza su comportamiento en esta tarea.
+Existen numerosos estudios sobre la generación de frases, donde nos interesan especialmente aquellos que
+las construyen en base a unas etiquetas [\citet{2014neural}], más cercano a la idea de combinar
+análisis de imágenes y sus descripciones (los elementos que aparecen en ellas se usan para generar las frases).
+
+Análogamente, se ha probado que las redes neuronales convolucionales dan buenos resultados
+cuando estamos tratando con datos en forma de imagen, como en \cite{2012imagenet}.
+Sin embargo, también se plantea el problema de conseguir buenos tiempos de entrenamiento
+en estas redes con tantos parámetros que ajustar. 
+
+Para trabajar con las técnicas de \textit{deep learning}, han aparecido numerosas APIs
+que automatizan gran parte de los cálculos necesarios en la red. Entre ellas destacamos
+Theano (la que usaremos en este proyecto) y TensorFlow, que cuenta con el apoyo de Google.
+
+En el trabajo de \cite{matchwords} se explora la conexión entre imágenes (o regiones de imágenes) y palabras
+mediante diferentes modelos, aún sin utilizar técnicas de \textit{deep learning}, presentes en las publicaciones
+más actuales.
+
+Los trabajos que combinan ambos enfoques para generar descripciones de imágenes son más recientes,
+Estos son los que nos interesan, y que vamos a tomar como base para construir nuestro propio modelo.
+El elemento común entre todos ellos es que se basan en redes neuronales convolucionales para el análisis de imágenes
+y redes neuronales recurrentes para la generación de frases [\citet{karpathy2015deep, vinyals2015show}].
+En el trabajo de \citet{karpathy2015deep} se trabaja con una modificación de las RNNs tradicionales
+(introduciendo la bidireccionalidad en la red) y de las CNNs, para que ambas trabajen bien en conjunto.
+
+También es importante destacar la importancia de contar con buenos \textit{datsets} y metodologías
+definidas para la evaluación de parejas imagen-frase. En el trabajo de Hodosh et al. \cite{hodosh2013framing} se
+recopilan anotaciones de 8000 imágenes (5 para cada una de las imágenes) que deben describir las entidades y los eventos.
+Como en el resto de \textit{datasets} que vamos a estudiar en este trabajo, las anotaciones se han obtenido mediante trabajadores
+humanos con plataformas de \textit{crowdsourcing}. Este \textit{dataset} se denomina Flickr8k. Mencionamos el trabajo relacionado
+con otro de los \textit{datsets} que vamos a utilizar: MSCOCO \citet{mscoco}.

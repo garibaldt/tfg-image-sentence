@@ -1,0 +1,21 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kd}{function} \PYG{n+nx}{stableSort}\PYG{p}{(}\PYG{n+nx}{v}\PYG{p}{,} \PYG{n+nx}{f}\PYG{p}{)}
+\PYG{p}{\PYGZob{}}
+    \PYG{k}{if} \PYG{p}{(}\PYG{n+nx}{f} \PYG{o}{===} \PYG{k+kc}{undefined}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+        \PYG{n+nx}{f} \PYG{o}{=} \PYG{k+kd}{function}\PYG{p}{(}\PYG{n+nx}{a}\PYG{p}{,} \PYG{n+nx}{b}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+            \PYG{n+nx}{a} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{o}{+}\PYG{n+nx}{a}\PYG{p}{;} \PYG{n+nx}{b} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{o}{+}\PYG{n+nx}{b}\PYG{p}{;}
+            \PYG{k}{return} \PYG{n+nx}{a} \PYG{o}{\PYGZlt{}} \PYG{n+nx}{b} \PYG{o}{?} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1} \PYG{o}{:} \PYG{p}{(}\PYG{n+nx}{a} \PYG{o}{\PYGZgt{}} \PYG{n+nx}{b} \PYG{o}{?} \PYG{l+m+mi}{1} \PYG{o}{:} \PYG{l+m+mi}{0}\PYG{p}{);}
+        \PYG{p}{\PYGZcb{}}
+    \PYG{p}{\PYGZcb{}}
+    \PYG{k+kd}{var} \PYG{n+nx}{dv} \PYG{o}{=} \PYG{p}{[];}
+    \PYG{k}{for} \PYG{p}{(}\PYG{k+kd}{var} \PYG{n+nx}{i}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n+nx}{i}\PYG{o}{\PYGZlt{}}\PYG{n+nx}{v}\PYG{p}{.}\PYG{n+nx}{length}\PYG{p}{;} \PYG{n+nx}{i}\PYG{o}{++}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+        \PYG{n+nx}{dv}\PYG{p}{[}\PYG{n+nx}{i}\PYG{p}{]} \PYG{o}{=} \PYG{p}{[}\PYG{n+nx}{v}\PYG{p}{[}\PYG{n+nx}{i}\PYG{p}{],} \PYG{n+nx}{i}\PYG{p}{];}
+    \PYG{p}{\PYGZcb{}}
+    \PYG{n+nx}{dv}\PYG{p}{.}\PYG{n+nx}{sort}\PYG{p}{(}\PYG{k+kd}{function}\PYG{p}{(}\PYG{n+nx}{a}\PYG{p}{,} \PYG{n+nx}{b}\PYG{p}{)\PYGZob{}}
+              \PYG{k}{return} \PYG{n+nx}{f}\PYG{p}{(}\PYG{n+nx}{a}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{],} \PYG{n+nx}{b}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{])} \PYG{o}{||} \PYG{p}{(}\PYG{n+nx}{a}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{n+nx}{b}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]);}
+            \PYG{p}{\PYGZcb{});}
+    \PYG{k}{for} \PYG{p}{(}\PYG{k+kd}{var} \PYG{n+nx}{i}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n+nx}{i}\PYG{o}{\PYGZlt{}}\PYG{n+nx}{v}\PYG{p}{.}\PYG{n+nx}{length}\PYG{p}{;} \PYG{n+nx}{i}\PYG{o}{++}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+        \PYG{n+nx}{v}\PYG{p}{[}\PYG{n+nx}{i}\PYG{p}{]} \PYG{o}{=} \PYG{n+nx}{dv}\PYG{p}{[}\PYG{n+nx}{i}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{];}
+    \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

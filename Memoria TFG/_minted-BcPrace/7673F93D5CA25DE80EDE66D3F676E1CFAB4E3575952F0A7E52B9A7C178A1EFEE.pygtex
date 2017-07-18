@@ -1,0 +1,10 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} function factorial can be defined using lambda}
+\PYG{k}{def} \PYG{n+nf}{factorial}\PYG{p}{(}\PYG{n}{n}\PYG{p}{):}\PYG{k}{return} \PYG{n+nb}{reduce}\PYG{p}{(}\PYG{k}{lambda} \PYG{n}{x}\PYG{p}{,}\PYG{n}{y}\PYG{p}{:}\PYG{n}{x}\PYG{o}{*}\PYG{n}{y}\PYG{p}{,[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{o}{+}\PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{n}{n}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{))}
+\PYG{c+c1}{\PYGZsh{} is equivalent to}
+\PYG{k}{def} \PYG{n+nf}{factorial}\PYG{p}{(}\PYG{n}{n}\PYG{p}{):}
+    \PYG{k}{if} \PYG{n}{n} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{:}
+        \PYG{k}{return} \PYG{l+m+mi}{1}
+    \PYG{k}{else}\PYG{p}{:}
+        \PYG{k}{return} \PYG{n}{n} \PYG{o}{*} \PYG{n}{factorial}\PYG{p}{(}\PYG{n}{n}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)}
+\end{Verbatim}

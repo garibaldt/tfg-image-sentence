@@ -1,0 +1,131 @@
+%%%
+%%% BACHELOR'S THESIS TEMPLATE - ENGLISH
+%%%
+%%%  * the first chapter
+%%%
+%%%  AUTHORS:  Arnost Komarek (komarek@karlin.mff.cuni.cz), 2011
+%%%            Michal Kulich (kulich@karlin.mff.cuni.cz), 2013
+%%%
+%%%  LAST UPDATED: 20130318
+%%%
+
+\chapter{Introducción}
+
+A menudo se dice que una imagen vale más que mil palabras, y este dicho no podría
+ser más acertado. Los humanos nos apoyamos en el sentido de la vista para gran
+parte de las tareas que realizamos en nuestra vida cotidiana. Esta importancia
+motiva el contenido de nuestro trabajo, en el que pretendemos construir un modelo
+usando técnicas de \textit{deep learning} (con las que se han conseguido grandes
+avances en los últimos años, e incluso meses, dentro de este campo) para estudiar la tarea
+de analizar y extraer datos de las imágenes. Sin embargo, la importancia de la visión
+para los humanos no se basa exclusivamente en reconocer objetos, que es la primera
+aproximación que se hace en este sentido, sino que también contamos con esa poderosa
+herramienta que es el lenguaje, y que nos permite no solo reconocer, sino describir
+lo que vemos. Esta idea de conexión entre la vista y el lenguaje es la que constituye
+el grueso de este trabajo, y nuestro objetivo va a ser estudiar y construir un modelo
+que relacione el contenido de una imágen con una descripción textual de la misma.
+
+En este proceso de análisis y descripción hay que tener diversos factores en cuenta.
+Para empezar, hay que definir que vamos a entender por descripciones. Esta tarea
+es difícil debido al amplio significado que tiene la tarea de describir; no está claro cómo de larga puede
+ser la descripción, si debe centrarse en todos los detalles o dar una "idea general"
+del contenido de la imágen, etc. Todas estas razones convierten la tarea de la
+descripción de imágenes en algo mucho más complejo,
+alejado del planteamiento algo más sencillo (que no trivial) de extraer elementos de las imágenes
+y organizarlos en una frase bien estructurada.
+
+%%%%% ===============================================================================
+\section{Objetivos}
+Nuestro objetivo principal en este trabajo es construir un sistema que sea capaz de
+relacionar el contenido de una imagen con una descripción textual que se acerque a
+la que daría una persona. Para ello vamos a estudiar, desde el enfoque del \textit{deep learning},
+las diferentes técnicas y modelos existentes para el análisis de imágenes y la descripción de su contenido.
+Destacamos dos conceptos claves para el desarrollo de nuestro trabajo, que son
+las redes neuronales recurrentes (\textit{Recurrent Neural Network}, RNN) y las redes
+neuronales convolucionales (\textit{Convolutional Neural Network}, CNN), que han probado su eficacia
+en las tareas relacionadas con procesamiento del lenguaje natural y análisis de imágenes, respectivamente.
+Hablaremos en profundidad sobre ello en los capítulos 2 y 3 de esta memoria.
+
+Para esta tarea necesitamos analizar una gran cantidad de datos. Cuando se suministra a una máquina, una imagen
+queda representada como una matriz de píxeles y una sentencia (descripción) como una lista de palabras
+(\textit{tokens}). Cada una de estas unidades no da información por si misma; necesita del resto para
+conformar una unidad con sentido. Además, para inferir las reglas que permitan detectar las relaciones
+entre los distintos elementos (entre elementos de la imagen, entre elementos de la sentencia y entre
+elementos de la imagen con su correspondiente sentencia) necesitamos un gran número de imágenes y
+de sentencias, con lo que la capacidad de computación necesaria para llevarlo a cabo es inmensa.
+En nuestro caso, contamos con una tarjeta gráfica donada por NVIDIA que será clave en la realización
+de todos los cálculos involucrados en un tiempo aceptable.
+
+%%%%% ===============================================================================
+\section{¿Qué es una descripción?}
+Ya hemos comentado la importancia que tiene definir correctamente lo que nuestro modelo
+va a entender por una descripción. Tenemos un modelo generativo, que necesita descripciones
+en el entrenamiento con un formato más o menos similar para producir buenos resultados.
+
+Según la RAE, describir se define como:
+\begin{enumerate}
+\item Representar o detallar el aspecto de alguien o algo por medio del lenguaje.
+\item Moverse a lo largo de una línea.
+\item Definir imperfectamente algo, no por sus cualidades esenciales, sino dando una idea general de sus partes o propiedades.
+\item Delinear, dibujar, pintar algo, representándolo de modo que se dé perfecta idea de ello.
+\end{enumerate}
+
+En el proceso de descripción de una escena, si nos atenemos a la tercera acepción,
+no se hace un análisis detallado de todos los objetos y acciones que se reflejan
+en ella, sino que se resume la información, y se tiende a describir los elementos
+que más llaman nuestra atención. Ya sea por su importancia o tamaño en la escena,
+por la impresión subjetiva que nos causan o por el contexto en el que sucede la escena y
+que los dota de mayor o menor relevancia.
+Pensemos por ejemplo en una imagen de una persona con el cielo de fondo;
+un humano destacaría a la persona que aparece en ella y daría menos importancia a otras cosas
+como el cielo que aparece detrás de la imagen (no es algo que llame la atención,
+siempre esta ahí), mientras que una máquina podría centrar su
+atención en ese cielo que aparece de fondo (por ejemplo, porque ocupa un porcentaje
+de la imagen más alto que la persona).
+
+En los \textit{datasets} que vamos a utilizar, cada imagen va acompañada de cinco
+frases con una longitud media de ///CALCULAR CON EL CODIGO. La anotación de imágenes
+se ha realizado utilizando operarios humanos a través de la plataforma Amazon Mechanical Turk. Se pidió a
+los trabajadores que describiesen el contenido de la imagen con una frase.
+Se ha probado empíricamente que en esta colección de datos se suele describir los
+aspectos más relevantes de la imagen, con especial incapié en descripción de personas,
+sus acciones, interacciones con la gente o el entorno. [\citet{karpathy}].
+
+\section{Problemas}
+La tarea que nos proponemos presenta una seria de desafíos más allá de la construcción
+del modelo o de la capacidad de cálculo de la que disponemos.
+
+Cuesta decidir qué es una buena descripción de una imagen y qué no lo es, pues dos personas distintas podrían
+dar dos descripciones distintas de la misma imagen, ya sea por la importancia que dan a ciertos
+elementos de la escena o por como describan el mismo elemento. Sin embargo, dos descripciones
+distintas pueden ser igualmente válidas y esto pone de relieve la importancia de tener buenas métricas
+para que el sistema sepa cuándo está describiendo algo bien, cuándo está describiendo algo mal, cuando
+lo hace mejor y cuando lo hace peor. Desarrollaremos en el capítulo 4 con más detalle qué métricas utilizamos,
+cuál es el razonamiento que hay detrás de ellas y cómo de fiables son.
+
+Otro inconveniente que se nos presenta es la dificultad de obtener imágenes con buenas descripciones asociadas.
+Aunque hay sitios como Flickr que contienen muchas imágenes con descripciones, a menudo estas últimas no dan
+información fiable sobre el contenido de la imagen. Cuando subimos una fotografía, no solemos describir su
+contenido, sino que adjuntamos texto sobre la situación en la que se produce, las personas que nos acompañan
+o los sentimientos que nos evocan. Por esta razón, no es fácil obtener automáticamente un \textit{dataset} lo bastante bueno
+como para entrenar al sistema, y precisamos de trabajo humano para acompañar las imágenes (o partes concretas de las imágenes)
+de descripciones adecuadas. En este sentido, muchos de los \textit{datasets} que se utilizan en este campo han requerido
+del trabajo de muchas personas, principalmente utilizando la herramienta Amazon Mechanical Turk.
+Además, en relación con lo que hemos expuesto en el párrafo anterior, necesitamos más
+de una descripción por imagen para dar perspectiva a nuestro sistema sobre las diferentes formas de describir el mismo contenido.
+Como en el caso de las métricas, la información acerca de los \textit{datasets} utilizados se desarrollará en el capítulo ??.
+
+Aunque tengamos un conjunto de pares imagen-descripción lo suficientemente grande y bueno para nuestra tarea, todavía queda algo
+que dificulta nuestra tarea, y es el poder asociar elementos de la descripción con zonas concretas de la imagen y no con toda ella.
+En este sentido, se han publicado trabajos que cuentan con \textit{datasets} más completos en este sentido, como \textit{Visual Genome} [\citet{visualgenome}],
+de manera que las relaciones entre lo descrito y su localización en la imagen son más fáciles de aprender por el sistema.
+
+%%%%% ===============================================================================
+\section{Estructura del documento}
+En el capítulo 1 hemos introducido el tema sobre el que trata esta memoria. El capítulo 2 consiste en un resumen sobre los trabajos más importantes
+publicados acerca de análisis de imágenes, de sentencias y de relación entre ambas. En el capítulo 3 describiremos nuestro modelo, y hablaremos sobre
+la teoría de \textit{deep learning} que hay detrás del mismo. Además describiremos la estructura y el funcionamiento de la redes neuronales que vamos
+a implementar. En el capítulo 4 explicamos la metodología que seguimos en nuestros experimentos y analizamos los datos y los resultados, comparándolos
+con los de trabajos existentes. Se muestran además ejemplos concretos de resultados que nuestro modelo a proporcionado. Por último, en el capítulo 5
+exponemos las conclusiones del trabajo y planteamos lineas de trabajo futuras.
+///////HASTA CAP 5?

@@ -1,0 +1,60 @@
+This is BibTeX, Version 0.99d (TeX Live 2016/Debian)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: memoria.aux
+The style file: plainnat.bst
+A level-1 auxiliary file: titulo.aux
+A level-1 auxiliary file: ./Capitulos/ch1.aux
+A level-1 auxiliary file: ./Capitulos/ch2.aux
+A level-1 auxiliary file: ./Capitulos/ch3.aux
+Database file #1: bibliografia.bib
+")" immediately follows an entry type---line 5 of file bibliografia.bib
+ : %%%  AUTHORS:  Arnost Komarek (komarek@karlin.mff.cuni.cz
+ :                                                          ), 2011
+I'm skipping whatever remains of this entry
+")" immediately follows an entry type---line 6 of file bibliografia.bib
+ : %%%            Michal Kulich (kulich@karlin.mff.cuni.cz
+ :                                                        ), 2013
+I'm skipping whatever remains of this entry
+Warning--empty booktitle in visualgenome
+You've used 10 entries,
+            2773 wiz_defined-function locations,
+            652 strings with 7068 characters,
+and the built_in function-call counts, 6156 in all, are:
+= -- 532
+> -- 442
+< -- 6
++ -- 148
+- -- 138
+* -- 512
+:= -- 925
+add.period$ -- 32
+call.type$ -- 10
+change.case$ -- 75
+chr.to.int$ -- 10
+cite$ -- 21
+duplicate$ -- 262
+empty$ -- 441
+format.name$ -- 150
+if$ -- 1300
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 9
+newline$ -- 59
+num.names$ -- 40
+pop$ -- 166
+preamble$ -- 1
+purify$ -- 66
+quote$ -- 0
+skip$ -- 227
+stack$ -- 0
+substring$ -- 228
+swap$ -- 57
+text.length$ -- 4
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 110
+warning$ -- 1
+while$ -- 46
+width$ -- 0
+write$ -- 136
+(There were 2 error messages)

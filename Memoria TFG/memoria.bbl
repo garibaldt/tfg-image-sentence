@@ -1,0 +1,81 @@
+\begin{thebibliography}{10}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Bahdanau et~al.(2014)Bahdanau, Cho, and Bengio]{2014neural}
+Dzmitry Bahdanau, Kyunghyun Cho, and Yoshua Bengio.
+\newblock Neural machine translation by jointly learning to align and
+  translate.
+\newblock \emph{arXiv preprint arXiv:1409.0473}, 2014.
+
+\bibitem[Barnard et~al.(2003)Barnard, Duygulu, Forsyth, Freitas, Blei, and
+  Jordan]{matchwords}
+Kobus Barnard, Pinar Duygulu, David Forsyth, Nando~de Freitas, David~M Blei,
+  and Michael~I Jordan.
+\newblock Matching words and pictures.
+\newblock \emph{Journal of machine learning research}, 3\penalty0
+  (Feb):\penalty0 1107--1135, 2003.
+
+\bibitem[Hodosh et~al.(2013)Hodosh, Young, and Hockenmaier]{hodosh2013framing}
+Micah Hodosh, Peter Young, and Julia Hockenmaier.
+\newblock Framing image description as a ranking task: Data, models and
+  evaluation metrics.
+\newblock \emph{Journal of Artificial Intelligence Research}, 47:\penalty0
+  853--899, 2013.
+
+\bibitem[Karpathy(2016)]{karpathy}
+Andrej Karpathy.
+\newblock \emph{Connecting Images and Natural Language}.
+\newblock PhD thesis, Stanford University, 2016.
+
+\bibitem[Karpathy and Fei-Fei(2015)]{karpathy2015deep}
+Andrej Karpathy and Li~Fei-Fei.
+\newblock Deep visual-semantic alignments for generating image descriptions.
+\newblock In \emph{Proceedings of the IEEE Conference on Computer Vision and
+  Pattern Recognition}, pages 3128--3137, 2015.
+
+\bibitem[Kombrink et~al.(2011)Kombrink, Mikolov, Karafi{\'a}t, and
+  Burget]{kombrink2011recurrent}
+Stefan Kombrink, Tom{\'a}{\v{s}} Mikolov, Martin Karafi{\'a}t, and
+  Luk{\'a}{\v{s}} Burget.
+\newblock Recurrent neural network based language modeling in meeting
+  recognition.
+\newblock In \emph{Twelfth Annual Conference of the International Speech
+  Communication Association}, 2011.
+
+\bibitem[Krishna et~al.(2016)Krishna, Zhu, Groth, Johnson, Hata, Kravitz, Chen,
+  Kalantidis, Li, Shamma, Bernstein, and Fei-Fei]{visualgenome}
+Ranjay Krishna, Yuke Zhu, Oliver Groth, Justin Johnson, Kenji Hata, Joshua
+  Kravitz, Stephanie Chen, Yannis Kalantidis, Li-Jia Li, David~A Shamma,
+  Michael Bernstein, and Li~Fei-Fei.
+\newblock Visual genome: Connecting language and vision using crowdsourced
+  dense image annotations.
+\newblock 2016.
+\newblock URL \url{https://arxiv.org/abs/1602.07332}.
+
+\bibitem[Krizhevsky et~al.(2012)Krizhevsky, Sutskever, and
+  Hinton]{2012imagenet}
+Alex Krizhevsky, Ilya Sutskever, and Geoffrey~E Hinton.
+\newblock Imagenet classification with deep convolutional neural networks.
+\newblock In \emph{Advances in neural information processing systems}, pages
+  1097--1105, 2012.
+
+\bibitem[Lin et~al.(2014)Lin, Maire, Belongie, Hays, Perona, Ramanan,
+  Doll{\'a}r, and Zitnick]{mscoco}
+Tsung-Yi Lin, Michael Maire, Serge Belongie, James Hays, Pietro Perona, Deva
+  Ramanan, Piotr Doll{\'a}r, and C~Lawrence Zitnick.
+\newblock Microsoft coco: Common objects in context.
+\newblock In \emph{European conference on computer vision}, pages 740--755.
+  Springer, 2014.
+
+\bibitem[Vinyals et~al.(2015)Vinyals, Toshev, Bengio, and
+  Erhan]{vinyals2015show}
+Oriol Vinyals, Alexander Toshev, Samy Bengio, and Dumitru Erhan.
+\newblock Show and tell: A neural image caption generator.
+\newblock In \emph{Proceedings of the IEEE conference on computer vision and
+  pattern recognition}, pages 3156--3164, 2015.
+
+\end{thebibliography}
