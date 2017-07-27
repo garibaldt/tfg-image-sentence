@@ -1,0 +1,231 @@
+%%%
+%%% BACHELOR'S THESIS TEMPLATE - ENGLISH
+%%%
+%%%  * the third chapter
+%%%
+%%%  AUTHORS:  Arnost Komarek (komarek@karlin.mff.cuni.cz), 2011
+%%%            Michal Kulich (kulich@karlin.mff.cuni.cz), 2013
+%%%
+%%%  LAST UPDATED: 20130318
+%%%
+%%%  ===========================================================================
+
+\chapter{Descripción de imágenes mediante deep learning}
+
+Notas para el capítulo:
+
+->Machine learning background
+->Deep learning background (CNN, RNN)
+->Image-sentence ranking task (cómo se asocian imágenes y descripciones)
+      *Estructura del modelo
+      *Ecuaciones
+      *...
+->Predict sentences using images (cómo se predicen descripciones para las imágenes)
+      *Estructura del modelo
+      *Ecuaciones
+      *...
+
+En este capítulo, presentamos los conceptos más importantes de
+deep learning que vamos a utilizar para construir nuestro modelo.
+Tras ello, hablamos primero sobre las redes neuronales convolucionales,
+cómo funcionan y que caracerísticas las hacen buenas para el tratamiento
+de imágenes. En la sección (REF) estudiamos las redes neuronales recurrentes
+que utilizamos en la vertiente de procesamiento del lenguaje natural
+para la generación de sentencias.
+
+\section{Machine Learning}
+Comenzamos hablando de machine learning, campo en el que también se ubica el deep
+learning. El machine learning consiste en desarrollar sistemas que reciben unos ejemplos
+de la tarea que deben realizar, y a partir de ellos inferir reglas que permitan
+a la máquina completar esas tareas automáticamente.
+
+En un sistema de machine learning diferenciamos varios elementos importantes: la tarea
+a realizar, una medida del rendimiento y la experiencia del aprendizaje.
+
+Algunas de las principales tareas a aprender en machine learning son:
+\begin{enumerate}
+ \item \textbf{Clasificación.} El sistema dispone de $k$ categorías, de forma
+ que cada entrada $x \in X$ se mapea a una de estas categorías vía una función
+ $f:\mathbb{R}\rightarrow\{1,...,k\}$. 
+ \item \textbf{Regresión logística.} Dada una entrada, queremos obtener un valor numérico
+ para la entrada correspondiente. En este caso, cada entrada $x \in X$ se mapea a
+ un valor real mediante una función $f:X\rightarrow\mathbb{R}$. La principal
+ diferencia con la clasificación es el formato de la salida.
+\end{enumerate}
+
+Para cuantificar cómo se comporta el sistema, necesitaremos una medida del rendimiento,
+que será específica para cada tarea.
+
+Por último, y según cómo sea la experiencia de aprendizaje, hablaremos de aprendizaje supervisado
+(el sistema es alimentado con ejemplos correctos acompañados de su etiqueta o valor
+correspondiente) o no supervisado (el sistema es alimentado con ejemplos para que
+aprenda su estructura).
+
+\section{Deep Learning}
+
+\subsection{Red Neuronal Feedforward}
+La red neuronal feedforward, también denominada perceptrón multicapa (multilayer perceptron, MLP por sus siglas
+en inglés) constituye la base del deep learning. El objetivo es que el modelo aproxime
+el valor de una función $f*$. Para aproximar el valor de esta función, buscamos 
+(aprendemos) los valores óptimos de los parámetros $\theta$ del sistema de manera que la función
+$f(x;\theta)$ sea una buena aproximación de $f*$.
+
+\subsection{Loss function}
+
+
+
+\subsection{Descenso de gradiente estocástico (SGD)}
+
+
+
+\section{Dataset}
+Para entrenar nuestro modelo utilizaremos datasets consistentes
+en una lista de imágenes, cada una de ellas acompañada de 5 descripciones.
+Los datasets que vamos a utilizar son Flickr8k [\citet{hodosh2013framing}],
+MSCOCO [\citet{mscoco}] y Flickr30k [\citet{young2014image}]. En deep learning,
+se suele tener una división de los datasets  en tres partes, cada una con un
+propósito concreto:
+
+\begin{enumerate}
+\item \textbf{Training set.} Son los datos que se utilizan para entrenar
+al modelo. En el entrenamiento, el sistema recibe estos ejemplos para ajustar
+una serie de parámetros con el objetivo de mejorar los resultados en la tarea
+concreta que se esté llevando a cabo.
+
+\item \textbf{Validation set.} Al entrenar, el sistema tiende al sobreajuste
+(\textit{overfitting}): los parámetros de la red se ajustan muy bien a los
+ejemplos concretos con los que se la entrena, pero ante un dato de entrenamiento
+diferente ofrece malos resultados. Para evitarlo, se suministran ejemplos al
+sistema que no forman parte de los datos de entrenamiento. Se calcula la precisión
+del sistema con datos de entrenamiento y estos últimos de validación, con la
+intención de actualizar los parámetros tras el entrenamiento sólo si dicha
+actualización mejora también los resultados sobre los datos de validación.
+
+\item \textbf{Testing set.} Tras el entrenamiento, estos datos se utilizan
+para observar la precisión final alcanzada por la red y poder cuantificar
+los resultados tras el entrenamiento.
+\end{enumerate}
+
+Estos datasets consisten en 8000, , y 31000, respectivamente. Para ambos, tomamos
+1000 imágenes para validación, 1000 imágenes para pruebas y el resto para
+entrenamiento, como se hace en \citet{karpathy}.
+
+\section{Asociando imágenes y descripciones}
+La tarea principal de nuestro trabajo consiste en diseñar un modelo que, dada una 
+imagen como entrada, sea capaz de generar (predecir) una sentencia que la describa.
+Para que esto sea posible, necesitamos una manera de asociar imágenes y sentencias,
+asignando una puntuación a una pareja (imagen, sentencia) que indique lo relacionados
+que están ambos datos. Así, una pareja en la que la imagen quede bien descrita por
+la sentencia tendrá mayor puntuación que una pareja en la que la imagen y su sentencia
+tengan poca relación entre sí.
+El problema es que tanto una imagen como una sentencia son objetos de alta dimensión,
+de manera que asociar unos con otros no es una tarea inmediata.
+
+\subsection{Representación de imágenes}
+Para representar las imágenes, podemos hacerlo de dos formas: codificar cada imagen
+como un vector (global image encoding) o codificar cada imagen como un conjunto de 
+vectores (fragment-level image encoding). Para simplificar nuestro modelo y mantener
+tiempos de entrenamiento admisibles, usaremos la primera aproximación.
+
+Para transformar nuestra imagen de entrada en su representación vectorial utilizaremos
+una red neuronal convolucional, que toma la imagen $I$ (matriz de tamaño $Height * Weight * Depth$)
+y aplica una serie de transformaciones hasta convertirla en un vector $v$. Representamos
+esta transformación mediante una función $CNN_{\theta}$ (donde $\theta$ representa los
+parámetros de la red. Un procedimiento habitual consiste en utilizar la CNN como un extractor
+de características (\textit{feature extractor}) sobre las que se realiza el entrenamiento propiamente dicho.
+Para ello, como se hace en numerosos trabajos [\citet{karpathy}], se preentrena una CNN con el 
+reto de clasficación de ImageNet\footnote{Disponible para su descarga en http://image-net.org/download},
+consistente en una serie de imágenes y 1000 categorías diferentes para su clasificación. Tras ello, 
+la última capa de la CNN que implementa la clasificación en sí. Todo este proceso da lugar a una CNN
+con parámetros aprendidos (que denotaremos por $\theta_{0}$ que usaremos para realizar una transformación
+fija de la imagen.
+
+\begin{equation}
+  v = W[CNN_{\theta_{0}}(I)] + b
+\end{equation} 
+
+
+
+
+
+\subsection{Representación de sentencias}
+
+
+\section{Generación de descripciones}
+
+\section{Recurrent Neural Networks - RNNs}
+
+A diferencia de las redes neuronales tradicionales, en las redes neuronales recurrentes
+se considera que los datos de entrada (y salida) no son independientes entre sí.
+Entre los principales usos de estas redes destacamos dos:
+
+\begin{enumerate}
+\item Clasificar sentencias de acuerdo a su probabilidad de aparecer en una situación real,
+dándonos una medida de su corrección sintáctica y/o gramática.
+\item Generar texto nuevo (original) tras entrenar el sistema con frases de prueba.
+\end{enumerate}
+
+Observamos la importancia de considerar dependencias entre las entradas y las salidas de la red:
+en el caso de las frases, si queremos generar una nueva palabra, tendremos que tener en cuenta
+la parte de la frase ya generada, pues esta influirá en el resto de la sentencia.
+
+\includegraphics[width=\linewidth]{\FIGDIR/rnn.eps}
+
+En este caso, $x_t$ representa la entrada de la red, $s_t$ el estado oculto y $o_t$
+la salida en el paso $t$. En la figura vemos que el estado $s_t$ se calcula como
+función del estado anterior $s_{t-1}$, la entrada en el paso actual $x_t$.
+La red posee "memoria" en el sentido en que los estados anteriores condicionan
+el estado actual. Sin embargo, esta memoria no se mantiene durante muchas fases.
+Existe un tipo concreto de RNN, las conocidas como \textit{long short-term memory}
+(LSTM) que favorece la persistencia de los datos de los estados anteriores durante
+un número de mayor de fases, lo que las hace especialmente indicadas para comprensión
+de lenguaje natural, análisis de textos manuscritos y reconocimiento de voz.
+
+\section{Convolutional Neural Networks - CNNs}
+
+Las redes neuronales convolucionales se utilizan en tareas como la clasificación y reconocmiento de imágenes.
+
+%\includegraphics[width=\linewidth]{\FIGDIR/cnn.eps}
+
+Podemos ver que el modelo asigna la mayor probabilidad a "barco" de entre las cuatro
+categorías existentes. En el modelo de la figura observamos cuatro operaciones en la red:
+
+\begin{itemize}
+\item \textbf{Convolución.} El principal objetivo de la operación de convolución
+es extraer características de una imagen.La convolución preserva la relación
+espacial entre los pixels de la imagen usando pequeños cuadros como datos de entrada.
+
+\includegraphics[width=\linewidth]{\FIGDIR/convolution.eps}
+
+Consideramos una imagen como una matriz bidimensional de píxeles (input), y otra
+ matriz (\textit{kernel} o filtro), normalmente de tamaño $3x3$ que "recorre" la
+ imagen de entrada. Con los valores del kernel y la porción de imagen que cubre,
+ se computa la convolución y esto da como resultado otra imagen (mapa de activación).
+
+\item \textbf{No linealidad.} Se aplica una función de activación no lineal operando
+sobre cada pixel del mapa de activación. Aunque pueden usarse funciones como la
+sigmoide, se ha probado que la función ReLU (Rectified Linear Unit) da mejores
+resultados en este tipo de redes neuronales [REF].
+
+%\includegraphics[width=\linewidth]{\FIGDIR/relu.eps}
+
+\item \textbf{Pooling.} Se encarga de reducir el tamaño del mapa de activación
+conservando los elementos más importantes. El \textit{Pooling} puede ser de
+distintos tipos: Max, Sum, Avg...
+
+%\includegraphics[width=\linewidth]{\FIGDIR/maxpool.eps}
+
+En el caso del \textit{Max Pooling}, se define un espacio (por ejemplo una matriz
+ $2x2$) y para cada bloque $2x2$ se coge el mayor valor de entre los 4 existentes.
+
+La función del \textit{Pooling} es reducir las imágenes y convertirlas en objetos
+ más manejables por las siguientes capas de la red.
+
+\item \textbf{Fully Connected Layer.} Tras la convolución y el \textit{Pooling},
+obtenemos características de alto nivel de la imagen de entrada. En esta fase, y
+usando dichas características como entrada, clasificamos la imagen en una serie
+de categorías basadas en el \textit{dataset} de entrenamiento.
+
+\includegraphics[width=\linewidth]{\FIGDIR/fullycon.eps}
+
+\end{itemize}

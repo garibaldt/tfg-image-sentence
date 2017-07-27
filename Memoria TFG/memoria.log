@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Debian) (preloaded format=latex 2017.7.9)  18 JUL 2017 08:52
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Debian) (preloaded format=latex 2017.7.9)  27 JUL 2017 04:40
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -604,59 +604,67 @@ Cap\IeC {\'\i }tulo 2.
  (./Capitulos/ch3.tex
 Cap\IeC {\'\i }tulo 3.
 
-Overfull \hbox (9.1251pt too wide) in paragraph at lines 22--24
-[]\OT1/cmr/m/n/12 Clasificar sen-ten-cias de acuerdo a su prob-a-bil-i-dad de a
-pare-cer en una situaci^^Son
- []
-
-File: ./Imagenes/rnn.eps Graphic file (type eps)
-<./Imagenes/rnn.eps>
-Overfull \hbox (17.62482pt too wide) in paragraph at lines 31--32
-[][] 
+Overfull \hbox (12.4536pt too wide) in paragraph at lines 50--54
+[]\OT1/cmr/bx/n/12 Regresi^^Son log^^S^^Pstica. \OT1/cmr/m/n/12 Dada una en-tra
+da, quer-e-mos obtener un valor num^^Serico
  []
 
 [8
 
 
 
-]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 53.
- (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
+] [9]
+Overfull \hbox (9.1251pt too wide) in paragraph at lines 163--165
+[]\OT1/cmr/m/n/12 Clasificar sen-ten-cias de acuerdo a su prob-a-bil-i-dad de a
+pare-cer en una situaci^^Son
+ []
+
+[10]
+File: ./Imagenes/rnn.eps Graphic file (type eps)
+ <./Imagenes/rnn.eps>
+Overfull \hbox (17.62482pt too wide) in paragraph at lines 172--173
+[][] 
+ []
+
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 194.
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 53.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 194.
 File: ./Imagenes/convolution.eps Graphic file (type eps)
 
-<./Imagenes/convolution.eps> [9]
+<./Imagenes/convolution.eps> [11]
 File: ./Imagenes/fullycon.eps Graphic file (type eps)
- <./Imagenes/fullycon.eps>) [10] (./memoria.bbl
+ <./Imagenes/fullycon.eps>) [12]
+(./memoria.bbl
 Underfull \hbox (badness 1275) in paragraph at lines 9--13
 \OT1/cmr/m/n/12 trans-la-tion by jointly learn-ing to align and trans-late.  \O
 T1/cmr/m/it/12 arXiv preprint
  []
 
-)
+[13
+
+
+])
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 183.
- [11
-
-
-]
+ [14]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 183.
- (./memoria.aux (./titulo.aux) (./Capitulos/ch1.aux) (./Capitulos/ch2.aux) (./C
-apitulos/ch3.aux))
+ (./memoria.aux (./titulo.aux) (./Capitulos/ch1.aux)
+(./Capitulos/ch2.aux) (./Capitulos/ch3.aux))
 Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 183.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 183.
 Package rerunfilecheck Info: File `memoria.out' has not changed.
-(rerunfilecheck)             Checksum: 069A4B5F7FC899227E580BF701EDBFEF;1567.
+(rerunfilecheck)             Checksum: F29372129EE8B255A3E0D99AA9A529D6;3489.
  ) 
 Here is how much of TeX's memory you used:
- 12891 strings out of 493014
- 193065 string characters out of 6135709
- 323513 words of memory out of 5000000
- 16218 multiletter control sequences out of 15000+600000
- 14045 words of font info for 51 fonts, out of 8000000 for 9000
+ 12931 strings out of 493014
+ 193578 string characters out of 6135709
+ 325780 words of memory out of 5000000
+ 16249 multiletter control sequences out of 15000+600000
+ 18808 words of font info for 69 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 37i,7n,35p,821b,413s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 37i,8n,35p,821b,461s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on memoria.dvi (14 pages, 52672 bytes).
+Output written on memoria.dvi (17 pages, 76936 bytes).

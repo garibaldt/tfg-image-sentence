@@ -1,4 +1,4 @@
-\begin{thebibliography}{10}
+\begin{thebibliography}{11}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -77,5 +77,12 @@ Oriol Vinyals, Alexander Toshev, Samy Bengio, and Dumitru Erhan.
 \newblock Show and tell: A neural image caption generator.
 \newblock In \emph{Proceedings of the IEEE conference on computer vision and
   pattern recognition}, pages 3156--3164, 2015.
+
+\bibitem[Young et~al.(2014)Young, Lai, Hodosh, and Hockenmaier]{young2014image}
+Peter Young, Alice Lai, Micah Hodosh, and Julia Hockenmaier.
+\newblock From image descriptions to visual denotations: New similarity metrics
+  for semantic inference over event descriptions.
+\newblock \emph{Transactions of the Association for Computational Linguistics},
+  2:\penalty0 67--78, 2014.
 
 \end{thebibliography}

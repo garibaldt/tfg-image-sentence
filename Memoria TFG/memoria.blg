@@ -16,45 +16,45 @@ I'm skipping whatever remains of this entry
  :                                                        ), 2013
 I'm skipping whatever remains of this entry
 Warning--empty booktitle in visualgenome
-You've used 10 entries,
+You've used 11 entries,
             2773 wiz_defined-function locations,
-            652 strings with 7068 characters,
-and the built_in function-call counts, 6156 in all, are:
-= -- 532
-> -- 442
+            657 strings with 7333 characters,
+and the built_in function-call counts, 6689 in all, are:
+= -- 579
+> -- 481
 < -- 6
-+ -- 148
-- -- 138
-* -- 512
-:= -- 925
-add.period$ -- 32
-call.type$ -- 10
-change.case$ -- 75
-chr.to.int$ -- 10
-cite$ -- 21
-duplicate$ -- 262
-empty$ -- 441
-format.name$ -- 150
-if$ -- 1300
++ -- 161
+- -- 150
+* -- 561
+:= -- 1009
+add.period$ -- 35
+call.type$ -- 11
+change.case$ -- 82
+chr.to.int$ -- 11
+cite$ -- 23
+duplicate$ -- 283
+empty$ -- 479
+format.name$ -- 163
+if$ -- 1408
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 9
-newline$ -- 59
-num.names$ -- 40
-pop$ -- 166
+missing$ -- 10
+newline$ -- 64
+num.names$ -- 44
+pop$ -- 178
 preamble$ -- 1
-purify$ -- 66
+purify$ -- 72
 quote$ -- 0
-skip$ -- 227
+skip$ -- 243
 stack$ -- 0
-substring$ -- 228
-swap$ -- 57
+substring$ -- 249
+swap$ -- 58
 text.length$ -- 4
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 110
+type$ -- 121
 warning$ -- 1
-while$ -- 46
+while$ -- 51
 width$ -- 0
-write$ -- 136
+write$ -- 149
 (There were 2 error messages)
