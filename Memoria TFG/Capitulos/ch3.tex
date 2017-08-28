@@ -12,26 +12,16 @@
 
 \chapter{Descripción de imágenes mediante deep learning}
 
-Notas para el capítulo:
-
-->Machine learning background
-->Deep learning background (CNN, RNN)
-->Image-sentence ranking task (cómo se asocian imágenes y descripciones)
-      *Estructura del modelo
-      *Ecuaciones
-      *...
-->Predict sentences using images (cómo se predicen descripciones para las imágenes)
-      *Estructura del modelo
-      *Ecuaciones
-      *...
-
 En este capítulo, presentamos los conceptos más importantes de
 deep learning que vamos a utilizar para construir nuestro modelo.
 Tras ello, hablamos primero sobre las redes neuronales convolucionales,
 cómo funcionan y que caracerísticas las hacen buenas para el tratamiento
 de imágenes. En la sección (REF) estudiamos las redes neuronales recurrentes
 que utilizamos en la vertiente de procesamiento del lenguaje natural
-para la generación de sentencias.
+para la generación de sentencias. Muchas de las cosas de la que aquí hablamos
+pueden ampliarse con la gran cantidad de textos que existen sobre el tema. En
+particular, es muy recomendable la lectura del libro \textit{Deep Learning Book}\footnote{Disponible de forma gratuita en \url{http://www.deeplearningbook.org/}}
+de \citet{Goodfellow}
 
 \section{Machine Learning}
 Comenzamos hablando de machine learning, campo en el que también se ubica el deep
@@ -48,7 +38,7 @@ Algunas de las principales tareas a aprender en machine learning son:
  que cada entrada $x \in X$ se mapea a una de estas categorías vía una función
  $f:\mathbb{R}\rightarrow\{1,...,k\}$. 
  \item \textbf{Regresión logística.} Dada una entrada, queremos obtener un valor numérico
- para la entrada correspondiente. En este caso, cada entrada $x \in X$ se mapea a
+ para la salida correspondiente. En este caso, cada $x \in X$ se mapea a
  un valor real mediante una función $f:X\rightarrow\mathbb{R}$. La principal
  diferencia con la clasificación es el formato de la salida.
 \end{enumerate}
@@ -56,26 +46,125 @@ Algunas de las principales tareas a aprender en machine learning son:
 Para cuantificar cómo se comporta el sistema, necesitaremos una medida del rendimiento,
 que será específica para cada tarea.
 
-Por último, y según cómo sea la experiencia de aprendizaje, hablaremos de aprendizaje supervisado
+Por último, y según cómo sea la experiencia de aprendizaje, 
+hablaremos de aprendizaje supervisado
 (el sistema es alimentado con ejemplos correctos acompañados de su etiqueta o valor
 correspondiente) o no supervisado (el sistema es alimentado con ejemplos para que
 aprenda su estructura).
 
 \section{Deep Learning}
 
+En esta sección explicamos los conceptos de deep learning 
+más importantes que usamos para realizar el trabajo. Comenzamos
+hablando del esquema más generar de deep learning (redes neuronales
+\textit{feedforward}, algoritmo de aprendizaje, etc. Tratamos además
+dos tipos de redes concretas, las redes neuronales convolucionales
+(para el tratamiento de imágenes) y las redes neuronales recurrentes 
+(para procesamiento del lenguaje natural).
+
 \subsection{Red Neuronal Feedforward}
-La red neuronal feedforward, también denominada perceptrón multicapa (multilayer perceptron, MLP por sus siglas
-en inglés) constituye la base del deep learning. El objetivo es que el modelo aproxime
-el valor de una función $f*$. Para aproximar el valor de esta función, buscamos 
-(aprendemos) los valores óptimos de los parámetros $\theta$ del sistema de manera que la función
-$f(x;\theta)$ sea una buena aproximación de $f*$.
+La red neuronal feedforward  constituye la 
+base del deep learning. Esta formado por una capa de entrada (\textit{input layer}),
+una capa "oculta" (\textit{hidden layer}) y una capa de salida (\textit{output layer}).
+En estas redes, las neuronas de la entrada estan conectadas a las neuronas de la capa oculta, y las neuronas de la capa oculta a las de salida. Se llaman feedforward porque 
+la información avanza, desde la entrada hasta la salida de la red.
 
-\subsection{Loss function}
-Para qué sirve, cuales se suelen utilizar
+\begin{figure}
+	\includegraphics[width=\linewidth]{\FIGDIR/feedforward.eps}
+	\caption{Red neuronal con 2 capas ocultas de 4 neuronas cada una. La información 				fluye de izquierda a derecha. También se utiliza un termino de bias, que se 		
+		omite por claridad.}
+\end{figure}
+
+Consideramos la tarea de clasificación planteada anteriormente. Tenemos unos valores
+de entrada $(x,y)$ y el objetivo es que el modelo aproxime el valor 
+de una función, que en este caso será $y=f^{*}(x)$ para cada par de entrada
+$(x,y)$, donde $x$ sería la entidad a clasificar e $y$ la correspondiente clase.
+Para realizar esta aproximación, la red neuronal define una función $y=f(x;\theta)$ y modifica los parámetros 
+del modelo, $\theta$, buscando que la función definida por la red 
+neuronal sea una buena aproximación de la función original $f*$.  
+(aprendemos) los valores óptimos de los parámetros $\theta$ del sistema 
+de manera que la función $f(x;\theta)$ sea una buena aproximación 
+de $f*$.
+
+Aunque puede resultar sorprendente, esta arquitectura por si sola puede obtener
+buenos resultados en la aproximación de la función dada (en nuestro casao $f*$).
+Esta idea queda respaldada por el teorema de aproximación Universal.
+Este teorema dice que una red neuronal
+\textit{feedforward} con un número finito de neuronas puede aproximar funciones, siempre
+que estas sean continuas en subconjuntos compactos de $\mathbb{R}^n$, y la función de
+activación de la red cumpla ciertos requisitos (la demostración mas conocida del teorema 
+se realiza para la función sigmoide).
+
+Estas redes neuronales suelen ser una composición de $n$ capas, de manera
+que la función final del modelo puede expresarse como una composición de $n$ funciones:
+
+\begin{equation}
+	f(x;\theta)=f^{(n)}(f^{(n-1)}(...f^{(1)}(x;\theta)...)) 
+\end{equation}
+
+donde $f^{(k)}$ denota a la función modelada por la capa $k$. El término deep learning
+viene de la profundidad de estas redes, del número de capas que las componen.
 
 
-\subsection{Descenso de gradiente estocástico (SGD)}
-Explicar algoritmo, variantes (en especial las que vamos a utilizar; adam, rmsprop,...)
+
+\subsection{Descenso de gradiente estocástico}
+Hasta ahora hemos hablado de cómo son las redes neuronales en general, y sabemos que
+son capazas de aproximar la función objetivo. Sin embargo, los resultados teóricos del
+apartado anterior no nos daban ninguna información sobre cómo guiar al modelo para
+que llegue a una configuración de parámetros que estime bien la función objetivo.
+
+El algoritmo más utilizado para este propósito es el descenso de gradiente estocástico
+(SGD, stochastic gradient descent en inglés). Este algoritmo sirve para minimizar una 
+función objetivo descrita como suma de funciones diferenciables. Toma como entrada
+una tasa de aprendizaje(\textit{learning rate}), los parámetros iniciales del modelo y
+utlizando los ejemplos que se le suministran devuelve la mejor configuración 
+de parámetros encontrada.
+
+
+\begin{figure}
+	Algoritmo SGD	
+\end{figure}
+
+
+Ya casi tenemos todo para realizar el aprendizaje, pero nos falta por determinar cuál
+es la función que vamos a minimizar. Esta función se denomina función de coste, y la 
+elección de esta función puede influir en los resultados que obtengamos al aplicar el 
+algoritmo. Lo más común es utilizar la función \textit{negative log-likelihood}, ya que minimizar esta función es equivalente a maximizar la probabilidad del dataset $D$ dados los 
+parámetros del modelo. La función se define como:
+
+\begin{equation}
+	l(\theta, D)=-\sum_{i=0}^{|D|} log(P(Y=y^{(i)}|x^{(i)}, \theta))
+\end{equation}
+ 
+En nuestro modelo, usamos una variante del descenso de gradiente estocástico con 
+mini-batches. Esto implica que en cada iteración, se computan varios ejemplos a la vez,
+lo que permite acelerar los tiempos aplicando computación en paralelo (en nuestro caso
+usando la GPU).
+
+
+\begin{figure}
+	ALGORITMO minibatch SGD
+\end{figure}
+
+
+\subsection{Backpropagation}
+Con el algoritmo SGD tenemos un método para optimizar los parámetros de nuestra red,
+y aun con la técnica de los mini-batches, el cálculo del gradiente es una operación
+computacionalmente compleja. Para solventar este problema, esta envía mensajes hacia
+delante en la red, donde se calcula el error comparando la salida del modelo con la salida 
+esperada y se envía hacia atrás para ajustar el peso de cada neurona. El gradiente de la función
+para la entrada y los parámetros se empieza a calcular en las últimas capas y se propaga hacia
+las primeras.
+
+
+\begin{figure}
+	\includegraphics[width=\linewidth]{\FIGDIR/feedforward.eps}
+	\caption{Esquema del algoritmo de backpropagation .}
+\end{figure}
+
+Debido a la importancia del cálculo de gradientes, las herramientas que se utilizan para trabajar 
+con redes neuronales (theano en nuestro caso) proveen diferenciación simbólica para computar los 
+mismos de forma automática y eficiente.
 
 
 \section{Dataset}
@@ -103,61 +192,93 @@ actualización mejora también los resultados sobre los datos de validación.
 
 \item \textbf{Testing set.} Tras el entrenamiento, estos datos se utilizan
 para observar la precisión final alcanzada por la red y poder cuantificar
-los resultados tras el entrenamiento.
+los resultados.
 \end{enumerate}
 
-Estos datasets consisten en 8000, , y 31000, respectivamente. Para ambos, tomamos
-1000 imágenes para validación, 1000 imágenes para pruebas y el resto para
+Estos datasets consisten en 8000, 123000, y 31000, respectivamente. En nuestros experimentos,
+tomamos 1000 imágenes para validación, 1000 imágenes para pruebas y el resto para
 entrenamiento, como se hace en \citet{karpathy}.
 
-\section{Asociando imágenes y descripciones}
-La tarea principal de nuestro trabajo consiste en diseñar un modelo que, dada una 
-imagen como entrada, sea capaz de generar (predecir) una sentencia que la describa.
-Para que esto sea posible, necesitamos una manera de asociar imágenes y sentencias,
-asignando una puntuación a una pareja (imagen, sentencia) que indique lo relacionados
-que están ambos datos. Así, una pareja en la que la imagen quede bien descrita por
-la sentencia tendrá mayor puntuación que una pareja en la que la imagen y su sentencia
-tengan poca relación entre sí.
-El problema es que tanto una imagen como una sentencia son objetos de alta dimensión,
-de manera que asociar unos con otros no es una tarea inmediata.
+\section{Redes neuronales convolucionales}
+Las redes convolucionales (CNN) son un tipo de red especializada en procesamiento de datos
+con una topología similar a una cuadrícula (en nuestro caso, una matriz de píxeles que representan la imagen). El nombre de la red viene de la operación de convolución, parte central del 
+funcionamiento de una CNN.
 
-\subsection{Representación de imágenes}
-Para representar las imágenes, podemos hacerlo de dos formas: codificar cada imagen
-como un vector (global image encoding) o codificar cada imagen como un conjunto de 
-vectores (fragment-level image encoding). Para simplificar nuestro modelo y mantener
-tiempos de entrenamiento admisibles, usaremos la primera aproximación.
+//SPARSE CONNECTIVITY
 
-Para transformar nuestra imagen de entrada en su representación vectorial utilizaremos
-una red neuronal convolucional, que toma la imagen $I$ (matriz de tamaño $Height * Weight * Depth$)
-y aplica una serie de transformaciones hasta convertirla en un vector $v$. Representamos
-esta transformación mediante una función $CNN_{\theta}$ (donde $\theta$ representa los
-parámetros de la red. Un procedimiento habitual consiste en utilizar la CNN como un extractor
-de características (\textit{feature extractor}) sobre las que se realiza el entrenamiento propiamente dicho.
-Para ello, como se hace en numerosos trabajos [\citet{karpathy}], se preentrena una CNN con el 
-reto de clasficación de ImageNet\footnote{Disponible para su descarga en http://image-net.org/download},
-consistente en una serie de imágenes y 1000 categorías diferentes para su clasificación. Tras ello, 
-la última capa de la CNN que implementa la clasificación en sí. Todo este proceso da lugar a una CNN
-con parámetros aprendidos (que denotaremos mediante $\theta_{0}$) que usaremos para realizar una transformación
-fija de la imagen.
+Pare entender como funciona una red convolucional, vamos a explicar la función de cada una de las
+capas que la integra. Las más comunes (y que nosotros utilizamos) son la capa de convolución (CONV),
+la de max pooling (POOL), la de regularización (DROPOUT) y redes fully connected (FC).
 
-\begin{equation}
-  v = W[CNN_{\theta_{0}}(I)] + b
-\end{equation} 
-
-Entrenaremos el sistema para que aprenda los parámetros $W$ y $b$. (finetuning, backprop on CNN)
+\begin{itemize}
+\item \textbf{Convolución.} En esta capa implementa la operación convolución. En ella, un filtro o \textit{kernel} se va desplazando y aplicandose sobre zonas de la imagen, produciendo lo que se denomina mapa de características de la imagen, y que intuitivamente resume la información de
+esa parte de la imagen. Esta operación se aprovecha de la conexión espacial entre pixeles cercanos, permitiendo analizar la imagen por regiones (y no por pixeles). Los
+hiperparámetros () para esta arquitectura son el tamaño del kernel, el número de 
+estos que vamos a utilizar, el stride (desplazamiento del kernel a lo largo de cada dimensión) y el padding (completar la imagen con ceros para ajustar la dimensión).
+\begin{figure}
+	\includegraphics[width=\linewidth]{\FIGDIR/convolution.eps}
+	\caption{Capa convolucional de una CNN. El kernel se aplica sobre una región de la 
+			imagen de entrada.}
+\end{figure}
 
 
+\item \textbf{No linealidad.} Se aplica una función de activación no lineal operando
+sobre cada pixel del mapa de activación. Aunque pueden usarse funciones como la
+sigmoide, se ha probado que la función ReLU (Rectified Linear Unit) da mejores
+resultados en este tipo de redes neuronales.
 
-\subsection{Representación de sentencias}
+
+\item \textbf{Max pooling.} Una capa de pooling reemplaza la salida de la red para
+una cierta zona de la imagen por un resumen de las salidas cercanas. El método de 
+pooling más común se denomina max pooling, en el que se toma como resumen de la región el valor de salida más alto.
 
 
-\section{Generación de descripciones}
+\item \textbf{Dropout.} Esta regularización se utiliza para evitar los problemas de 
+overfitting. Su funcionamiento es muy simple: para cada salida de la capa 
+anterior, cada neurona se acepta o no
+(se tiene en cuenta su valor) con una probabilidad de ser usada $1 - P(drop)$. 
 
-\section{Recurrent Neural Networks - RNNs}
 
+\item \textbf{Fully connected layer.} La última capa de la red es una arquitectura fully connected, cuya salida se pasa a un clasificador (softmax) para calcular la
+clasificación, los erroes y realizar el
+entrenamiento.
+
+\end{itemize}
+
+Los parámetros a aprender en la red son los pesos que acompañan a los kernels y los 
+parámetros propios de las capas fully connected.
+
+
+\subsection{Ejemplos de redes convolucionales}
+Se han diseñado numerosas arquitecturas para redes convolucionales, aunque la mayoría realiza las mismas operaciones, quizá en distinto orden y/o un número distinto de veces. Las arquitecturas más comunes son de la forma:
+
+INPUT -> [[CONV -> RELU]*N -> POOL?]*M -> [FC -> RELU]*K -> FC
+
+Algunas de las arquitecturas más importantes son LeNet, GoogLeNet y
+VGG. 
+
+
+///CITAR Y AMPLIAR//
+
+
+A la hora de implementar nuestro encoder de imágenes utilizaremos una VGG de 16 capas, que se muestra en la figura.
+
+
+\begin{figure}
+	\includegraphics[width=\linewidth]{\FIGDIR/vgg16.eps}
+	\caption{Arquitectura VGG de 16 capas.}
+\end{figure}
+
+
+\section{Redes neuronales recurrentes}
 A diferencia de las redes neuronales tradicionales, en las redes neuronales recurrentes
 se considera que los datos de entrada (y salida) no son independientes entre sí.
-Entre los principales usos de estas redes destacamos dos:
+Esta propiedad es adecuada para nuestra tarea de procesar sentencias, pues nos
+interesa ver la relación existente entre
+las palabras, y no su representación de forma individual.
+
+En base a una arquitectura podemos construir modelos que nos permitan,
+entre otras cosas:
 
 \begin{enumerate}
 \item Clasificar sentencias de acuerdo a su probabilidad de aparecer en una situación real,
@@ -175,57 +296,169 @@ En este caso, $x_t$ representa la entrada de la red, $s_t$ el estado oculto y $o
 la salida en el paso $t$. En la figura vemos que el estado $s_t$ se calcula como
 función del estado anterior $s_{t-1}$, la entrada en el paso actual $x_t$.
 La red posee "memoria" en el sentido en que los estados anteriores condicionan
-el estado actual. Sin embargo, esta memoria no se mantiene durante muchas fases.
+el estado actual. 
+
+Sin embargo, esta memoria no se mantiene durante muchas fases.
 Existe un tipo concreto de RNN, las conocidas como \textit{long short-term memory}
 (LSTM) que favorece la persistencia de los datos de los estados anteriores durante
 un número de mayor de fases, lo que las hace especialmente indicadas para comprensión
 de lenguaje natural, análisis de textos manuscritos y reconocimiento de voz.
 
-\section{Convolutional Neural Networks - CNNs}
 
-Las redes neuronales convolucionales se utilizan en tareas como la clasificación y reconocmiento de imágenes.
+\section{Asociando imágenes y descripciones}
+Ya hemos planteado el contexto teórico y los conceptos de deep learning más importantes
+a la hora de realizar nuestro trabajo. En esta sección vamos a partir de todo esto para 
+llegar hasta la construcción final de nuestro modelo.
 
-%\includegraphics[width=\linewidth]{\FIGDIR/cnn.eps}
+La tarea principal de nuestro trabajo consiste en diseñar un modelo que, dada una 
+imagen como entrada, sea capaz de generar (predecir) una sentencia que la describa.
+Además, con el objetivo de ver la relación entre las imágenes y las sentencias,
+necesitamos una manera de compararlas, digamos
+asignando una puntuación a una pareja (imagen, sentencia) que indique lo relacionados
+que están entre sí. Así, una pareja en la que la imagen quede bien descrita por
+la sentencia tendrá mayor puntuación que una pareja en la que la imagen y su sentencia
+tengan poca relación entre sí.
+Tanto una imagen como una sentencia son objetos de alta dimensión,
+de manera que asociar unos con otros no es una tarea inmediata, y requiere de una
+arquitectura más compleja que la de las redes neuronales clásicas.
 
-Podemos ver que el modelo asigna la mayor probabilidad a "barco" de entre las cuatro
-categorías existentes. En el modelo de la figura observamos cuatro operaciones en la red:
+\subsection{Representación de imágenes}
+Para representar las imágenes, podemos hacerlo de dos formas: codificar cada imagen
+como un vector (global image encoding) o codificar cada imagen como un conjunto de 
+vectores (fragment-level image encoding), cada uno asociado a una parte de esta. 
+Para simplificar nuestro modelo y mantener
+tiempos de entrenamiento admisibles, usaremos la primera aproximación.
 
-\begin{itemize}
-\item \textbf{Convolución.} El principal objetivo de la operación de convolución
-es extraer características de una imagen.La convolución preserva la relación
-espacial entre los pixels de la imagen usando pequeños cuadros como datos de entrada.
 
-\includegraphics[width=\linewidth]{\FIGDIR/convolution.eps}
+Para transformar nuestra imagen de entrada en su representación vectorial utilizaremos
+una red neuronal convolucional, que toma la imagen $I$ 
+(matriz de tamaño $Height * Weight * Depth$)
+y aplica una serie de transformaciones hasta convertirla en un vector $v$. Representamos
+esta transformación mediante una función $CNN_{\theta}$ (donde $\theta$ representa los
+parámetros de la red). Este vector representa las características de la imagen, y será de
+utilidad al modelar las secuencias asociadas a imágenes.
 
-Consideramos una imagen como una matriz bidimensional de píxeles (input), y otra
- matriz (\textit{kernel} o filtro), normalmente de tamaño $3x3$ que "recorre" la
- imagen de entrada. Con los valores del kernel y la porción de imagen que cubre,
- se computa la convolución y esto da como resultado otra imagen (mapa de activación).
 
-\item \textbf{No linealidad.} Se aplica una función de activación no lineal operando
-sobre cada pixel del mapa de activación. Aunque pueden usarse funciones como la
-sigmoide, se ha probado que la función ReLU (Rectified Linear Unit) da mejores
-resultados en este tipo de redes neuronales [REF].
+Para realizar esta transformación de la imagen, como se hace en numerosos trabajos
+[\citet{karpathy}], se preentrena una CNN con el 
+reto de clasficación de ImageNet
+\footnote{Disponible para su descarga en http://image-net.org/download},
+consistente en una serie de imágenes y 1000 categorías diferentes para su clasificación. 
 
-%\includegraphics[width=\linewidth]{\FIGDIR/relu.eps}
 
-\item \textbf{Pooling.} Se encarga de reducir el tamaño del mapa de activación
-conservando los elementos más importantes. El \textit{Pooling} puede ser de
-distintos tipos: Max, Sum, Avg...
+Las imágenes atraviesan las diferentes capas de la CNN (descritas en la sección SEC) y tras
+atravesar la última capa fully connected, obtenemos un vector de dimensión 4098. En la
+última capa se encuentra el clasificador (softmax), que para cada una de las 1000 categorías del 
+desafío de clasificación de ImageNet, da un valor entre 0 y 1 indicando la probabilidad de que el 
+objeto de la categoría aparezca en la imagen.
 
-%\includegraphics[width=\linewidth]{\FIGDIR/maxpool.eps}
 
-En el caso del \textit{Max Pooling}, se define un espacio (por ejemplo una matriz
- $2x2$) y para cada bloque $2x2$ se coge el mayor valor de entre los 4 existentes.
+Todo este proceso da lugar a una CNN con parámetros aprendidos (denotados por $\theta_{0}$) 
+que usaremos para realizar una transformación fija de la imagen en un vector, sobre el que
+se aplica una transformación afín para obtener el encoding de la imagen:
 
-La función del \textit{Pooling} es reducir las imágenes y convertirlas en objetos
- más manejables por las siguientes capas de la red.
+\begin{equation}
+  v = W[CNN_{\theta_{0}}(I)] + b
+\end{equation} 
 
-\item \textbf{Fully Connected Layer.} Tras la convolución y el \textit{Pooling},
-obtenemos características de alto nivel de la imagen de entrada. En esta fase, y
-usando dichas características como entrada, clasificamos la imagen en una serie
-de categorías basadas en el \textit{dataset} de entrenamiento.
 
-\includegraphics[width=\linewidth]{\FIGDIR/fullycon.eps}
+Para ahorrarnos tiempo de entrenamiento, y puesto que hay muchos modelos preentrenados
+disponibles, nosotros utilizamos la red VGG-16 [\citet{simonyan}] ya entrenada en el
+desafío de ImageNet \footnote{Modelos preentrenados para theano + lasagne
+disponibles en https://github.com/Lasagne/Recipes}. 
 
-\end{itemize}
+
+\begin{figure}
+	\includegraphics[width=0.27\linewidth]{\FIGDIR/test_cnn1.eps}
+	\includegraphics[width=0.37\linewidth]{\FIGDIR/test_cnn2.eps}
+	\includegraphics[width=0.27\linewidth]{\FIGDIR/test_cnn3.eps}
+	\caption{Mejores 5 resultados para cada imagen usando la red neuronal convolucional.}
+\end{figure}
+
+
+En la figura podemos ver varios ejemplos de clasificación de imágenes usando la CNN. Aunque
+la clasificacion es buena, observamos que en la primera imagen la red detecta que aparece un 
+violín, pero no la persona que lo toca. Esto se debe a que el desafio de ImageNet, aunque
+resulte sorprendente, no cuenta con categorías como "hombre", "mujer" o similares.
+
+
+\subsection{Representación de sentencias}
+
+
+Ya sabemos como codificar las imágenes, y ahora queremos hacer lo mismo con las sentencias.
+Así, transformaremos una sentencia, dada como una secuencia de palabras $(s_1, s_2, ... , s_T)$,
+en un vector, de manera que podamos asociarlo con la imagen y entrenar la red en consecuencia.
+
+Nuestro objetivo es obtener una representación de la sentencia
+como un vector $s$. Cadap palabra
+de la entrada puede interpretarse
+como un vector one-hot de dimensión
+nuestro vocabulario, donde el índice asociado a la palabra es 1 y el resto son 0. De cara a la 
+implementación, y como estamos trabajando con un lenguaje de tamaño fijo, todas aquellas palabras 
+que queden fuera de nuestro vocabulario se mapearan a
+la palabra especial UNK (desconocido), que será a todos los efectos una palabra más de nuestro 
+vocabulario.
+
+La forma más inmediata de codificar es usando la técnica de bag of words, donde cada
+palabra se considera como un elemento individual y se obtiene su codificación proyectando
+el vector one-hot con una transformación lineal. La representación final puede obtenerse como suma
+de cada representación individual:
+
+\begin{equation}
+	s=\sum_{i=1}^{T} s_i 
+	\quad\mathrm{donde}\quad
+	s_i=W_w \mathbb{I}_i  
+\end{equation}
+
+
+Sim embargo, esta codificación no posee propiedades atractivas para nuestra tarea.
+En particular, no conserva las relaciones espaciales entre las palabras, como la que
+hay entre un adjetivo y el objeto al que se refiere.
+
+
+Para superar las limitaciones de la codificación mediante bag of words, utilizamos las redes neuronales 
+recurrentes. El comportamiento de nuestro encoder viene dado por la siguiente recurrencia para $t=1,...T$:
+
+\begin{equation}
+	\begin{split}
+	h_0 = \vec{0}
+	\\
+	e_t = W_w \mathbb{I}_w
+	\\
+	h_t = f(W_hh h_{t-1} + W_xh e_t + b)
+	\end{split}
+\end{equation}
+
+En estas ecuaciones, los parámetros $W_w, W_hh, W_xh, b$ son aprendidos, y la no
+linealidad f que utlizamos es una ReLU.
+La codificación de la secuencia puede
+interpretarse como el último valor $h_T$
+o la suma de los estados ocultos ($s = \sum_{t=1}^{T} h_t$). 
+
+
+\subsection{Comparación imagen-sentencia}
+Con lo expuesto anteiormente, podemos tomar un par de entrada (imagen, sentencia) y codificarlo
+como vectores $(v, s)$. Usando estos vectores, queremos buscar una función de coste que relacione estas representaciones.
+Podemos interpretar el producto $S=v^T s$ entre los vectores imagen y sentencia como
+una puntuación de lo cercanos que están entre sí en el espacio vectorial común.
+
+EXPLICACION DE LA ELECCION
+
+En \citet{karpathy}, se utiliza una función 
+de coste para el entrenamiento con buenas 
+propiedades para esta tarea:
+
+\begin{equation}
+	L(\theta)=\sum_{k} \left[\sum_{l} max(0, S_{kl}-S_ {kk}+1) + \sum_{l} max(0,S_{lk}-S_{kk}+1)\right] + \lambda \lVert \theta \rVert^{2}  
+\end{equation}
+
+
+Esta será la función de coste que utilizaremos en nuestro entrenamiento.
+
+
+EJEMPLOS DE SCORE
+
+
+\section{Generación de descripciones}
+
+ULTIMA PARTE, ACOMPAÑANDO AL CODIGO

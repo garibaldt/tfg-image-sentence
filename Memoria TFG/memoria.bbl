@@ -1,9 +1,17 @@
-\begin{thebibliography}{11}
+\begin{thebibliography}{16}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Abadi et~al.(2016)Abadi, Agarwal, Barham, Brevdo, Chen, Citro,
+  Corrado, Davis, Dean, Devin, et~al.]{tensorflow}
+Mart{\'\i}n Abadi, Ashish Agarwal, Paul Barham, Eugene Brevdo, Zhifeng Chen,
+  Craig Citro, Greg~S Corrado, Andy Davis, Jeffrey Dean, Matthieu Devin, et~al.
+\newblock Tensorflow: Large-scale machine learning on heterogeneous distributed
+  systems.
+\newblock \emph{arXiv preprint arXiv:1603.04467}, 2016.
 
 \bibitem[Bahdanau et~al.(2014)Bahdanau, Cho, and Bengio]{2014neural}
 Dzmitry Bahdanau, Kyunghyun Cho, and Yoshua Bengio.
@@ -18,6 +26,25 @@ Kobus Barnard, Pinar Duygulu, David Forsyth, Nando~de Freitas, David~M Blei,
 \newblock Matching words and pictures.
 \newblock \emph{Journal of machine learning research}, 3\penalty0
   (Feb):\penalty0 1107--1135, 2003.
+
+\bibitem[Bergstra et~al.(2010)Bergstra, Breuleux, Bastien, Lamblin, Pascanu,
+  Desjardins, Turian, Warde-Farley, and Bengio]{theano}
+James Bergstra, Olivier Breuleux, Fr{\'e}d{\'e}ric Bastien, Pascal Lamblin,
+  Razvan Pascanu, Guillaume Desjardins, Joseph Turian, David Warde-Farley, and
+  Yoshua Bengio.
+\newblock Theano: A cpu and gpu math compiler in python.
+\newblock In \emph{Proc. 9th Python in Science Conf}, pages 1--7, 2010.
+
+\bibitem[Collobert et~al.(2011)Collobert, Kavukcuoglu, and Farabet]{torch}
+Ronan Collobert, Koray Kavukcuoglu, and Cl{\'e}ment Farabet.
+\newblock Torch7: A matlab-like environment for machine learning.
+\newblock In \emph{BigLearn, NIPS Workshop}, number EPFL-CONF-192376, 2011.
+
+\bibitem[Goodfellow et~al.(2016)Goodfellow, Bengio, and Courville]{Goodfellow}
+Ian Goodfellow, Yoshua Bengio, and Aaron Courville.
+\newblock \emph{Deep Learning}.
+\newblock MIT Press, 2016.
+\newblock \url{http://www.deeplearningbook.org}.
 
 \bibitem[Hodosh et~al.(2013)Hodosh, Young, and Hockenmaier]{hodosh2013framing}
 Micah Hodosh, Peter Young, and Julia Hockenmaier.
@@ -70,6 +97,11 @@ Tsung-Yi Lin, Michael Maire, Serge Belongie, James Hays, Pietro Perona, Deva
 \newblock Microsoft coco: Common objects in context.
 \newblock In \emph{European conference on computer vision}, pages 740--755.
   Springer, 2014.
+
+\bibitem[Simonyan and Zisserman(2014)]{simonyan}
+Karen Simonyan and Andrew Zisserman.
+\newblock Very deep convolutional networks for large-scale image recognition.
+\newblock \emph{arXiv preprint arXiv:1409.1556}, 2014.
 
 \bibitem[Vinyals et~al.(2015)Vinyals, Toshev, Bengio, and
   Erhan]{vinyals2015show}

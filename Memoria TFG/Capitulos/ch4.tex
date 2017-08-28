@@ -1,0 +1,86 @@
+
+\chapter{Implementación del modelo}
+
+Para entrenar un modelo de deep learning no solo basta contar con tener una forma de 
+implementar todas las técnicas y algoritmos vistos en las secciones anteriores. Estas técnicas, 
+aunque válidas, pueden llegar a ser muy lentas según el tamaño del dataset. Además, al tratar con imágenes, las dimensiones de los datos crecen notablemente, aumentando más aún la complejidad.
+
+Para solucionar este problema, existen muchas herramientas para deep learning que ofrecen 
+cálculo simbólico para poder ejecutar operaciones en la GPU. Estos entornos representan la
+arquitectura como un grafo computacional y bajo esta perspectiva, instancian las variables simbólicas
+en tiempo de ejecución con datos concretos. Esta característica es fundamental, pues en los algoritmos
+de aprendizaje aplicamos una serie de transformaciones a los datos de entrada, y utilizando la GPU
+podemos hacer estos cálculos para cada entrada de forma paralela. Aunque cargar los datos en la GPU
+es más costoso que hacerlo en memoria princpial, una vez cargados, las operaciones de nuestra red se realizan mucho mas rápido que en la CPU.
+
+
+\section{Theano}
+En los últimos años han aparecido numerosos framework de trabajo con redes neuronales. Los más
+utilizados son Tensorflow \citet{tensorflow}, Theano \citet{theano} y Torch \citet{torch} 
+
+
+Theano\footnote{www.deeplearning.net} es un framework escrito sobre Python que ofrece, entre otras,
+las siguientes funcionalidades:
+
+\begin{itemize}
+\item \textbf{Integración con numpy}.
+\item \textbf{Uso transparente de la GPU}.
+\item \textbf{Diferenciación simbólica eficiente}.
+\item \textbf{Integración con numpy}.
+\end{itemize}
+
+Theano crea un grafo computacional para nuestro modelo, y en ejecución, ese grafo es alimenatado
+con los valores concretos de las variables.
+
+
+\subsection{Tensor}
+El objeto fundamental en Theano es el tensor, que representa una variable u expresión simbólica.
+
+//CREACION DE TENSORES
+//ALGUNAS OPERACIONES
+//COMPILACION DE FUNCIONES
+//UPDATES
+//(SCAN PARA RECURRENCIA)
+
+
+
+\subsection{Modelo preentrenado con lasagne}
+Para generar el modelo de la arquitectura CNN hemos utilizado una implementación de lasagne, una 
+librería sobre theano para abstraer la creación de capas y ajuste de parámetros). Para la 
+codificación de imágenes usamos una red tipo VGG de 16 capas preentrenada ya en el desafío de 
+clasificación de ImageNet. 
+
+
+
+\section{GPU}
+Como ya hemos comentado en la introducción, Theano permite ejecutar operaciones sobre la GPU, resultando en mayores tiempos de carga y menores tiempos de ejecución. Para realizar nuestros
+experimentos necesitamos además que la GPU tenga una cantidad de memoria alta, de manera que pueda almacenar en ella los datos del modelo y poder acceder a ellos para ejecutar el grafo descrito.
+
+En nuestro caso, contamos con una tarjeta gráfica TITAN X PASCAL de 12 Gb de memoria que fue donada
+por NVIDIA para la realización de nuestro proyecto.
+
+
+\section{CUDA}
+Para trabajar sobre la GPU, NVIDIA ofrece unas herramientas de desarrollo y un 
+compilador que permiten usar una variante del lenguaje C para codificar algoritmos
+en tarjetas gráfica NVIDIA compatibles.
+
+CUDA\footnote{http://www.nvidia.es/object/cuda-parallel-computing-es.html} (Compute Unified Device Architecture) aprovecha los núcleos de la tarjeta gráfica 
+para lanzar hilos de ejecución simultáneos.
+En el caso de las redes neuronales, la evaluación de cada ejemplo en el minibatch
+(la unidad que se carga en la GPU cada iteración) se realiza de forma 
+independiente al resto de ejemplos, luego estos cálculos pueden ser paralelizados y 
+sacar provecho de la GPU.
+
+Theano ofrece integración con CUDA (actualmente en su versión 8).
+
+
+\subsection{CUDnn}
+CUDnn\footnote{https://developer.nvidia.com/cudnn} es una 
+librería de CUDA que ofrece primitivas para redes neuronales, con
+operaciones aceleradas en la GPU. Esta librería se utiliza en theano para 
+implementar la operación de convolución
+
+En nuestros experimentos hemos trabajado con la versión 5.1 de CUDnn.
+
+
